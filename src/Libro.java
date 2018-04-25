@@ -4,10 +4,10 @@ public class Libro {
 	
 	private String titulo;
 	private String autor;
-	private int cantidadPaginas;
+	private String cantidadPaginas;
 	private ArrayList<String> generos;
 	
-	public Libro (String titulo, String autor, int cP) {
+	public Libro (String titulo, String autor, String cP) {
 		this.titulo = titulo;
 		this.autor = autor;
 		this.cantidadPaginas = cP;
@@ -30,11 +30,11 @@ public class Libro {
 		this.autor = autor;
 	}
 
-	public int getCantidadPaginas() {
+	public String getCantidadPaginas() {
 		return cantidadPaginas;
 	}
 
-	public void setCantidadPaginas(int cantidadPaginas) {
+	public void setCantidadPaginas(String cantidadPaginas) {
 		this.cantidadPaginas = cantidadPaginas;
 	}
 
