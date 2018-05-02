@@ -16,11 +16,11 @@ public class ColeccionLibros {
 		this.listaLibros = new LinkedList<Libro>();
 	}
 	
-	public void getLibrosGenero() {
-		LinkedList<Libro> libros = this.librosXGenero.getLibros("");
+	public void getLibrosGenero(String genre, String csvFile) {
+		LinkedList<Libro> libros = this.librosXGenero.getLibros(genre);
 		BufferedWriter bw = null;
 		try {
-			File file = new File("C:\\salida.csv");
+			File file = new File(csvFile);
 			if (!file.exists()) {
 				file.createNewFile();
 			}
@@ -42,12 +42,6 @@ public class ColeccionLibros {
 				bw.write(contenidoLinea);
 				bw.newLine();
 			}
-			
-			/*
-			 *
-			 * ... 
-			 * 
-			*/
 
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
@@ -61,24 +55,29 @@ public class ColeccionLibros {
 		}
 
 	}
-	
-	public void cargarLibros() {
-        String csvFile = "C:\\dataset4.csv";
+	//Carga los libros de un archivo, y genera un indice con los generos que contiene
+	public void cargarLibros(String csvFile) {
         String line = "";
         String cvsSplitBy = ",";
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        	//Salta la primer linea que contiene los titulos
         	br.readLine();
             while ((line = br.readLine()) != null) {
-
+            
                 String[] items = line.split(cvsSplitBy);
+                //Genera un nuevo libro con titulo, autor, numero de paginas
                 Libro libro = new Libro(items[0],items[1],items[2]);
+                //Separa los generos
                 String[] generos = items[3].split(" ");
+                //Se los agrega al libro
                 for (String genero:generos) {
                 	libro.addGenero(genero);
                 }
+                //Agrega el libro a la lista de la coleccion de libros
                 this.listaLibros.add(libro);
-            	this.librosXGenero.insertLibro(libro);
+            	//Referencia a los libros de la coleccion en el indice
+                this.librosXGenero.insertLibro(libro);
             }
         } catch (IOException e) {
             e.printStackTrace();
