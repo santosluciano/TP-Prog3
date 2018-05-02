@@ -8,12 +8,16 @@ import java.util.LinkedList;
 
 public class ColeccionLibros {
 	
-	Indice librosXGenero;
-	LinkedList<Libro> listaLibros;
+	private Indice librosXGenero;
+	private LinkedList<Libro> listaLibros;
 	
 	public ColeccionLibros() {
 		this.librosXGenero = new Indice();
 		this.listaLibros = new LinkedList<Libro>();
+	}
+	
+	public void verGeneros() {
+		this.librosXGenero.mostrarGeneros();
 	}
 	
 	public void getLibrosGenero(String genre, String csvFile) {
@@ -34,15 +38,16 @@ public class ColeccionLibros {
 			bw.newLine();
 
 			// Escribo la segunda linea del archivo
-			for(Libro libro:libros) {
-				String contenidoLinea = libro.getTitulo()+","+libro.getAutor()+","+libro.getCantidadPaginas()+",";
-				for (String genero:libro.getGeneros()) {
-					contenidoLinea += genero+"-";
+			if (libros != null) {
+				for(Libro libro:libros) {
+					String contenidoLinea = libro.getTitulo()+","+libro.getAutor()+","+libro.getCantidadPaginas()+",";
+					for (String genero:libro.getGeneros()) {
+						contenidoLinea += genero+" ";
+					}
+					bw.write(contenidoLinea);
+					bw.newLine();
 				}
-				bw.write(contenidoLinea);
-				bw.newLine();
 			}
-
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		} finally {

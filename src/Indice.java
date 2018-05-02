@@ -2,10 +2,10 @@ import java.util.LinkedList;
 
 public class Indice {
 	
-	String genero;
-	LinkedList<Libro> libros;
-	Indice izq;
-	Indice der;
+	private String genero;
+	private LinkedList<Libro> libros;
+	private Indice izq;
+	private Indice der;
 	
 	public Indice() {
 		this.genero = null;
@@ -46,6 +46,30 @@ public class Indice {
 	}
 	
 	public LinkedList<Libro> getLibros(String genero){
-		return this.libros;
+		if (this.genero.equals(genero)) {
+			return this.libros;
+		} else if (this.genero.compareTo(genero)>0) {
+			if (this.izq != null) {
+				return this.izq.getLibros(genero);
+			} else {
+				return null;
+			}
+		} else {
+			if (this.der != null) {
+				return this.der.getLibros(genero);
+			} else {
+				return null;
+			}				
+		}
+	}
+	
+	public void mostrarGeneros() {
+		if (this.izq != null) {
+			izq.mostrarGeneros();
+		}
+		System.out.println(this.genero);
+		if (this.der!=null) {
+			der.mostrarGeneros();
+		}
 	}
 }
