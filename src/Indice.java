@@ -13,9 +13,6 @@ public class Indice {
 	private Indice izq;
 	private Indice der;
 	private static int nodosVisitados;
-	private static int cantidadIteraciones;
-	private int cantidadLibros;
-	private int generosXLibro;
 	
 	public Indice() {
 		this.genero = null;
@@ -27,7 +24,6 @@ public class Indice {
 	
 	//Carga los libros de un archivo, y genera un indice con los generos que contiene
 	public void cargarLibros(String csvFile) {
-		this.cantidadLibros = 0;
 
         String line = "";
         String cvsSplitBy = ",";
@@ -36,7 +32,6 @@ public class Indice {
         	//Salta la primer linea que contiene los titulos
         	br.readLine();
             while ((line = br.readLine()) != null) {
-            	
                 String[] items = line.split(cvsSplitBy);
                 //Genera un nuevo libro con titulo, autor, numero de paginas
                 Libro libro = new Libro(items[0],items[1],items[2]);
@@ -56,34 +51,17 @@ public class Indice {
         }
 	}
 	
-	public void insertLibro(Libro libro) {
-		this.cantidadLibros++;
-		cantidadIteraciones = 0;
-		this.generosXLibro = 0;
-
-		
+	public void insertLibro(Libro libro) {		
 		for (String genero:libro.getGeneros()) {
-			nodosVisitados = 0;
-			this.generosXLibro++;
 			insertLibro(libro,genero);
-//			System.out.println("Para insertar el genero " + genero + " se visitaron " + nodosVisitados + " nodos");
 		}
-//		System.out.println("El libro " + cantidadLibros + " posee " + this.generosXLibro + " generos");
-//		System.out.println("El libro " + cantidadLibros + " posee " + cantidadIteraciones + " interacciones/generos");
-
-
 	}
 	
 	private void insertLibro(Libro libro, String genero) {
-		cantidadIteraciones++;
-
 		if (this.genero == null) {
 			this.genero = genero;
 			libros.add(libro);
-
 		}else {
-			nodosVisitados++;
-
 			if (this.genero.equals(genero)) {
 				this.libros.add(libro);
 			} else if (this.genero.compareTo(genero)>0) {
@@ -140,7 +118,6 @@ public class Indice {
 				System.out.println("Error cerrando el BufferedWriter" + ex);
 			}
 		}
-
 	}
 
 	public LinkedList<Libro> getLibros(String genero){

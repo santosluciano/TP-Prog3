@@ -1,17 +1,17 @@
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Libro {
 	
 	private String titulo;
 	private String autor;
 	private String cantidadPaginas;
-	private ArrayList<String> generos;
+	private LinkedList<String> generos;
 	
 	public Libro (String titulo, String autor, String cP) {
 		this.titulo = titulo;
 		this.autor = autor;
 		this.cantidadPaginas = cP;
-		this.generos = new ArrayList<String>();
+		this.generos = new LinkedList<String>();
 	}
 
 	public String getTitulo() {
@@ -38,7 +38,7 @@ public class Libro {
 		this.cantidadPaginas = cantidadPaginas;
 	}
 
-	public ArrayList<String> getGeneros() {
+	public LinkedList<String> getGeneros() {
 		return generos;
 	}
 
