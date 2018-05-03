@@ -50,6 +50,7 @@ public class Indice {
             	//Referencia a los libros de la coleccion en el indice
                 this.insertLibro(libro);
             }
+            System.out.println("Se cargaron los libros.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,10 +66,10 @@ public class Indice {
 			nodosVisitados = 0;
 			this.generosXLibro++;
 			insertLibro(libro,genero);
-			System.out.println("Para insertar el genero " + genero + " se visitaron " + nodosVisitados + " nodos");
+//			System.out.println("Para insertar el genero " + genero + " se visitaron " + nodosVisitados + " nodos");
 		}
-		System.out.println("El libro " + cantidadLibros + " posee " + this.generosXLibro + " generos");
-		System.out.println("El libro " + cantidadLibros + " posee " + cantidadIteraciones + " interacciones/generos");
+//		System.out.println("El libro " + cantidadLibros + " posee " + this.generosXLibro + " generos");
+//		System.out.println("El libro " + cantidadLibros + " posee " + cantidadIteraciones + " interacciones/generos");
 
 
 	}
@@ -128,6 +129,7 @@ public class Indice {
 					bw.newLine();
 				}
 			}
+			System.out.println("Se genero el archivo de salida con los libros del genero "+genre);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		} finally {
@@ -157,8 +159,7 @@ public class Indice {
 				return null;
 			}				
 		}
-	}
-	
+	}	
 	
 	public void mostrarGeneros() {
 		if (this.izq != null) {
@@ -168,5 +169,9 @@ public class Indice {
 		if (this.der!=null) {
 			der.mostrarGeneros();
 		}
+	}
+	
+	public boolean isEmpty() {
+		return (this.genero == null);
 	}
 }
