@@ -1,3 +1,9 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.LinkedList;
 
 public class Indice {
@@ -6,6 +12,8 @@ public class Indice {
 	private LinkedList<Libro> libros;
 	private Indice izq;
 	private Indice der;
+	private int nodosVisitados;
+	private int cantidadIteraciones;
 	
 	public Indice() {
 		this.genero = null;
@@ -14,13 +22,46 @@ public class Indice {
 		this.der = null;
 	}
 	
+	//Carga los libros de un archivo, y genera un indice con los generos que contiene
+	public void cargarLibros(String csvFile) {
+        String line = "";
+        String cvsSplitBy = ",";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        	//Salta la primer linea que contiene los titulos
+        	br.readLine();
+            while ((line = br.readLine()) != null) {
+            	
+                String[] items = line.split(cvsSplitBy);
+                //Genera un nuevo libro con titulo, autor, numero de paginas
+                Libro libro = new Libro(items[0],items[1],items[2]);
+                //Separa los generos
+                String[] generos = items[3].split(" ");
+                //Se los agrega al libro
+                for (String genero:generos) {
+                	libro.addGenero(genero);
+                }
+                //Agrega el libro a la lista de la coleccion de libros
+            	//Referencia a los libros de la coleccion en el indice
+                this.insertLibro(libro);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
 	public void insertLibro(Libro libro) {
+		this.cantidadIteraciones = 0;
+		this.nodosVisitados = 0;
 		for (String genero:libro.getGeneros()) {
+			this.cantidadIteraciones = 0;
 			insertLibro(libro,genero);
+			System.out.println(this.cantidadIteraciones);
 		}
 	}
 	
 	private void insertLibro(Libro libro, String genero) {
+		this.cantidadIteraciones++;
 		if (this.genero == null) {
 			this.genero = genero;
 			libros.add(libro);
@@ -45,6 +86,42 @@ public class Indice {
 		}
 	}
 	
+	public void getLibrosGenero(String genre, String csvFile) {
+		LinkedList<Libro> libros = this.getLibros(genre);
+		BufferedWriter bw = null;
+		try {
+			File file = new File(csvFile);
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+			
+			FileWriter fw = new FileWriter(file);
+			bw = new BufferedWriter(fw);
+			
+			// Escribo la primer linea del archivo
+			bw.write("Titulo");
+			bw.newLine();
+
+			// Escribo la segunda linea del archivo
+			if (libros != null) {
+				for(Libro libro:libros) {
+					bw.write(libro.getTitulo());
+					bw.newLine();
+				}
+			}
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		} finally {
+			try {
+				if (bw != null)
+					bw.close();
+			} catch (Exception ex) {
+				System.out.println("Error cerrando el BufferedWriter" + ex);
+			}
+		}
+
+	}
+
 	public LinkedList<Libro> getLibros(String genero){
 		if (this.genero.equals(genero)) {
 			return this.libros;
