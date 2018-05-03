@@ -12,18 +12,23 @@ public class Indice {
 	private LinkedList<Libro> libros;
 	private Indice izq;
 	private Indice der;
-	private int nodosVisitados;
-	private int cantidadIteraciones;
+	private static int nodosVisitados;
+	private static int cantidadIteraciones;
+	private int cantidadLibros;
+	private int generosXLibro;
 	
 	public Indice() {
 		this.genero = null;
 		this.libros = new LinkedList<Libro>();
 		this.izq = null;
 		this.der = null;
+		
 	}
 	
 	//Carga los libros de un archivo, y genera un indice con los generos que contiene
 	public void cargarLibros(String csvFile) {
+		this.cantidadLibros = 0;
+
         String line = "";
         String cvsSplitBy = ",";
 
@@ -51,33 +56,47 @@ public class Indice {
 	}
 	
 	public void insertLibro(Libro libro) {
-		this.cantidadIteraciones = 0;
-		this.nodosVisitados = 0;
+		this.cantidadLibros++;
+		cantidadIteraciones = 0;
+		this.generosXLibro = 0;
+
+		
 		for (String genero:libro.getGeneros()) {
-			this.cantidadIteraciones = 0;
+			nodosVisitados = 0;
+			this.generosXLibro++;
 			insertLibro(libro,genero);
-			System.out.println(this.cantidadIteraciones);
+			System.out.println("Para insertar el genero " + genero + " se visitaron " + nodosVisitados + " nodos");
 		}
+		System.out.println("El libro " + cantidadLibros + " posee " + this.generosXLibro + " generos");
+		System.out.println("El libro " + cantidadLibros + " posee " + cantidadIteraciones + " interacciones/generos");
+
+
 	}
 	
 	private void insertLibro(Libro libro, String genero) {
-		this.cantidadIteraciones++;
+		cantidadIteraciones++;
+
 		if (this.genero == null) {
 			this.genero = genero;
 			libros.add(libro);
+
 		}else {
+			nodosVisitados++;
+
 			if (this.genero.equals(genero)) {
 				this.libros.add(libro);
 			} else if (this.genero.compareTo(genero)>0) {
-				if (this.izq != null)
-					this.izq.insertLibro(libro,genero);
+				if (this.izq != null) {
+					this.izq.insertLibro(libro,genero);	
+				}
 				else {
 					this.izq = new Indice();
 					this.izq.insertLibro(libro,genero);
 				}
 			} else {
-				if (this.der != null)
+				if (this.der != null) {
 					this.der.insertLibro(libro,genero);
+				}
 				else {
 					this.der = new Indice();
 					this.der.insertLibro(libro,genero);
@@ -139,6 +158,7 @@ public class Indice {
 			}				
 		}
 	}
+	
 	
 	public void mostrarGeneros() {
 		if (this.izq != null) {
