@@ -12,7 +12,6 @@ public class Indice {
 	private LinkedList<Libro> libros;
 	private Indice izq;
 	private Indice der;
-	private static int nodosVisitados;
 	
 	public Indice() {
 		this.genero = null;
