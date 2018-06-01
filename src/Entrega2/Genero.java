@@ -9,15 +9,30 @@ public class Genero {
 
 	
 	private String nombre;
-	private LinkedList<ProximoGenero> aristas;
+	private LinkedList<ProximoGenero> generosVinculados;
 	
 	public Genero (String nombre) {
 		this.nombre = nombre;
-		aristas = new LinkedList<ProximoGenero>();
+		generosVinculados = new LinkedList<ProximoGenero>();
 	}
 	
-	public void addArista(ProximoGenero arista) {
-		aristas.add(arista);
+	public void addVisitado(Genero proximoGenero) {
+		ProximoGenero visitado = getProximo(proximoGenero);
+		if (visitado == null) {
+			ProximoGenero proximo = new ProximoGenero(proximoGenero);
+			generosVinculados.add(proximo);	
+		}
+		else{
+			visitado.setVisitas();
+		}
+	}
+	
+	public ProximoGenero getProximo(Genero genero) {
+		for(ProximoGenero proximo: generosVinculados){
+			if(proximo.getProximoGenero().equals(genero))
+				return proximo;
+		}
+		return null;
 	}
 
 	public String getNombre() {
@@ -32,21 +47,21 @@ public class Genero {
 		return this;
 	}
 	
-	public boolean existeArista (Genero destino){
-		for (ProximoGenero arista : this.aristas) {
-			if (arista.getDestino().equals(destino)) {
+	public boolean existeGenero (Genero siguiente){
+		for (ProximoGenero genero : this.generosVinculados) {
+			if (genero.getProximoGenero().equals(siguiente)) {
 				return true;
 			}
 		}
 		return false;
 	}
 	
-	public ArrayList<Genero> obtenerAdyacentes() {
-		ArrayList<Genero> adyacentes = new ArrayList<Genero>();
-		for (ProximoGenero arista : aristas) {
-			adyacentes.add(arista.getDestino());
+	public ArrayList<Genero> obtenerGenerosVinculados() {
+		ArrayList<Genero> vinculados = new ArrayList<Genero>();
+		for (ProximoGenero genero : generosVinculados) {
+			vinculados.add(genero.getProximoGenero());
 		}
-		return adyacentes;
+		return vinculados;
 	}
 	
 	public boolean equals(Genero v) {

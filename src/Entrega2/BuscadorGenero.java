@@ -8,33 +8,32 @@ public class BuscadorGenero {
 	//ESTA SERIA EL GRAFO
 
 
-	private LinkedList<Genero> vertices;
-	private int cantidadAristas;
+	private LinkedList<Genero> generos;
+	private int cantidadGenerosVinculados;
 	
 	public BuscadorGenero() {
-		this.vertices = new LinkedList<Genero>();
-		this.cantidadAristas = 0;
+		this.generos = new LinkedList<Genero>();
+		this.cantidadGenerosVinculados = 0;
 	}
 	
 	public void agregarVertice(Genero vertice) {
-		vertices.add(vertice);
+		generos.add(vertice);
 	}
 	
-	public void agregarArista(Genero verticeA, Genero verticeB, int peso) {
-		Genero origen = this.obtenerVertice(verticeA);
-		Genero destino = this.obtenerVertice(verticeB);
+	public void agregarArista(Genero generoA, Genero generoB) {
+		Genero origen = this.obtenerVertice(generoA);
+		Genero destino = this.obtenerVertice(generoB);
 		
 		if (origen != null && destino != null) {
-			ProximoGenero arista = new ProximoGenero(destino, peso);
-			origen.addArista(arista);
-			cantidadAristas++;
+			origen.addVisitado(destino);
+			cantidadGenerosVinculados++;
 		}
 		else 
 			System.out.println("Uno de los vertices no existe");
 	}
 
 	public Genero obtenerVertice(Genero v) {
-		for (Genero vertice : this.vertices) {
+		for (Genero vertice : this.generos) {
 			if (vertice.equals(v)) {
 				return vertice;
 			}
@@ -44,37 +43,37 @@ public class BuscadorGenero {
 
 	public ArrayList<Genero> obtenerVertices() {
 		ArrayList <Genero> vertices = new ArrayList<Genero>();
-		for (Genero vertice : this.vertices) {
+		for (Genero vertice : this.generos) {
 			vertices.add(vertice);
 		}
 		return vertices;
 	}
 
-	public Integer getNumVertices() {
-		return this.vertices.size();
+	public Integer getNumGeneros() {
+		return this.generos.size();
 	}
 
-	public Integer getNumAristas() {
-		return this.cantidadAristas;
+	public Integer getNumGenerosVinculados() {
+		return this.cantidadGenerosVinculados;
 	}
 
-	public boolean existeArista(Genero verticeA, Genero verticeB) {
+	public boolean existeArista(Genero generoA, Genero generoB) {
 //		Vertice origen = this.obtenerVertice(verticeA);
 //		Vertice destino = this.obtenerVertice(verticeB);
 	//abria que verificar con un hasVertice por ejemplo, si existe el vertice en el grafo	
-		if (verticeA.existeArista(verticeB)) {
+		if (generoA.existeGenero(generoB)) {
 			return true;
 		}
 		return false;
 	}
 
-	public ArrayList<Genero> obtenerAdyacentes(Genero vertice) {
-		ArrayList<Genero> adyacentes = new ArrayList<Genero>();
+	public ArrayList<Genero> obtenerAdyacentes(Genero genero) {
+		ArrayList<Genero> vinculados = new ArrayList<Genero>();
 		//Vertice origen = this.obtenerVertice(vertice);
 		//verificar si esta el vertice aca antes, creo q el if de si es null no se tendria q hacer
-		if (vertice != null) {
-			adyacentes.addAll(vertice.obtenerAdyacentes());
+		if (genero != null) {
+			vinculados.addAll(genero.obtenerGenerosVinculados());
 		}
-		return adyacentes;
+		return vinculados;
 	}
 }

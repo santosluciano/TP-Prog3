@@ -4,28 +4,28 @@ public class ProximoGenero {
 	
 	//ESTA SERIA LA ARISTA DEL GRAFO
 	
-	private Genero destino;
-	private int peso;
+	private Genero proximoGenero;
+	private int visitas;
 	
-	public ProximoGenero(Genero destino, int peso) {
-		this.destino = destino;
-		this.peso = peso;
+	public ProximoGenero(Genero proximoGenero) {
+		this.proximoGenero = proximoGenero;
+		this.visitas = 1;
 	}
 
-	public Genero getDestino() {
-		return destino;
+	public Genero getProximoGenero() {
+		return proximoGenero;
 	}
 
-	public void setDestino(Genero destino) {
-		this.destino = destino;
+	public void setProximoGenero(Genero proximoGenero) {
+		this.proximoGenero = proximoGenero;
 	}
 
-	public int getPeso() {
-		return peso;
+	public int getVisitas() {
+		return visitas;
 	}
 
-	public void setPeso(int peso) {
-		this.peso = peso;
+	public void setVisitas() {
+		this.visitas++;
 	}
 
 }
