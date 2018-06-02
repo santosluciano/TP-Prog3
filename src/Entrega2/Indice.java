@@ -19,7 +19,31 @@ public class Indice {
 		this.genero = null;
 		this.libros = new LinkedList<Libro>();
 		this.izq = null;
-		this.der = null;	
+		this.der = null;
+		this.buscador = new BuscadorGenero();
+	}
+	
+	public void cargarBusquedas(String csvFile) {
+
+        String line = "";
+        String cvsSplitBy = ",";
+
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        	//Salta la primer linea que contiene los titulos
+        	br.readLine();
+            while ((line = br.readLine()) != null) {
+                String[] generos = line.split(cvsSplitBy);
+                if (generos.length != 1) {
+	                for (int i=0;i<generos.length-1;i++) {
+	                	buscador.addProxGenero(generos[i], generos[i+1]);
+	                }
+                }else
+                	buscador.addGenero(generos[0]);                
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        buscador.mostrarBusqueda();
 	}
 	
 	//Carga los libros de un archivo, y genera un indice con los generos que contiene

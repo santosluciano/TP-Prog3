@@ -15,35 +15,37 @@ public class BuscadorGenero {
 		this.cantidadGeneros = 0;
 	}
 	
-	public void addGenero(Genero genero) {
+	public void addGenero(String genero) {
 		if (!this.hasGenero(genero)) {
-			generos.add(genero);
+			Genero g = new Genero(genero);
+			generos.add(g);
 			cantidadGeneros++;
 		}
 	}
 	
-	public boolean hasGenero(Genero generoB) {
+	public boolean hasGenero(String generoB) {
 		for (Genero genero:this.generos) {
-			if (genero.equals(generoB))
+			if (genero.getNombre().equals(generoB))
 				return true;
 		}
 		return false;
 	}
 	
-	public void addProxGenero(Genero generoA, Genero generoB) {
-		if (this.hasGenero(generoA) && this.hasGenero(generoB)) 
-			generoA.addVisitado(generoB);
-		else 
-			System.out.println("Uno de los generos no existe");
+	public void addProxGenero(String generoA, String generoB) {
+		Genero gA = this.getGenero(generoA); 
+		Genero gB = this.getGenero(generoB);
+		gA.addVisitado(gB);
 	}
 
-	public Genero getGenero(Genero g) {
+	public Genero getGenero(String g) {
 		for (Genero genero : this.generos) {
-			if (genero.equals(g)) {
+			if (genero.getNombre().equals(g)) {
 				return genero;
 			}
 		}
-		return null;
+		Genero nuevoGenero = new Genero(g);
+		this.generos.add(nuevoGenero);
+		return nuevoGenero;
 	}
 
 	public ArrayList<Genero> getGeneros() {
@@ -64,6 +66,14 @@ public class BuscadorGenero {
 
 	public ArrayList<Genero> obtenerProximos(Genero genero) {
 		return genero.obtenerGenerosVinculados();
+	}
+	
+	public void mostrarBusqueda() {
+		for (Genero genero:this.generos) {
+			System.out.print(genero.getNombre()+" - ");
+			genero.mostrarProximos();
+			System.out.println("");
+		}
 	}
 
 }

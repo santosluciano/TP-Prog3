@@ -7,10 +7,11 @@ public class Biblioteca {
 
 	public static void main(String[] args) throws IOException {		
 		System.out.println("Estoy en entrega 2");			
-
+		
 		BufferedReader linea = new BufferedReader(new InputStreamReader(System.in)); 
 		Indice coleccionLibros = new Indice();
 		System.out.print("Ingrese el nombre del archivo (csv) y su ruta contando como raiz el c: ");
+		coleccionLibros.cargarBusquedas("C:\\"+linea.readLine()+".csv");
 		coleccionLibros.cargarLibros("C:\\"+linea.readLine()+".csv");
 		String opcion = "y";
 		do {
