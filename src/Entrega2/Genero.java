@@ -65,7 +65,7 @@ public class Genero {
 	
 	public void mostrarProximos(){
 		for (ProximoGenero genero:this.generosVinculados) {
-			System.out.print(genero.getProximoGenero().getNombre()+" - ");
+			System.out.print(genero.getProximoGenero().getNombre()+":"+genero.getVisitas()+ " - ");
 		}
 	}
 }
