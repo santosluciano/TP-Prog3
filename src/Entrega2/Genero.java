@@ -7,7 +7,6 @@ public class Genero {
 	
 	//ESTA SERIA EL VERTICE DEL GRAFO
 
-	
 	private String nombre;
 	private LinkedList<ProximoGenero> generosVinculados;
 	
@@ -16,10 +15,10 @@ public class Genero {
 		generosVinculados = new LinkedList<ProximoGenero>();
 	}
 	
-	public void addVisitado(Genero proximoGenero) {
-		ProximoGenero visitado = getProximo(proximoGenero);
+	public void addVisitado(Genero generoB) {
+		ProximoGenero visitado = this.getProximo(generoB);
 		if (visitado == null) {
-			ProximoGenero proximo = new ProximoGenero(proximoGenero);
+			ProximoGenero proximo = new ProximoGenero(generoB);
 			generosVinculados.add(proximo);	
 		}
 		else{
@@ -43,7 +42,7 @@ public class Genero {
 		this.nombre = nombre;
 	}
 	
-	public Genero getVertice() {
+	public Genero getGenero() {
 		return this;
 	}
 	
@@ -63,12 +62,4 @@ public class Genero {
 		}
 		return vinculados;
 	}
-	
-	public boolean equals(Genero v) {
-		if(this.getNombre().equals(v.getNombre()))
-			return true;
-		else
-			return false;		
-	}
-
 }

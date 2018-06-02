@@ -11,6 +11,7 @@ public class Indice {
 	
 	private String genero;
 	private LinkedList<Libro> libros;
+	private BuscadorGenero buscador;
 	private Indice izq;
 	private Indice der;
 	
@@ -18,8 +19,7 @@ public class Indice {
 		this.genero = null;
 		this.libros = new LinkedList<Libro>();
 		this.izq = null;
-		this.der = null;
-		
+		this.der = null;	
 	}
 	
 	//Carga los libros de un archivo, y genera un indice con los generos que contiene
@@ -151,4 +151,5 @@ public class Indice {
 	public boolean isEmpty() {
 		return (this.genero == null);
 	}
+
 }
