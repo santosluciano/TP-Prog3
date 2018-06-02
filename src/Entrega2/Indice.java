@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 
 public class Indice {
@@ -43,9 +45,27 @@ public class Indice {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        buscador.mostrarBusqueda();
+        //buscador.mostrarBusqueda();
 	}
 	
+	public void getMasBuscados(String genero, int cantidad) {
+		ArrayList<ProximoGenero> buscados = this.buscador.getProximos(genero);
+		if (buscados != null) {
+			Collections.sort(buscados);
+			for (int i = 0; i<cantidad && i<buscados.size(); i++) {				
+				System.out.println(buscados.get(i).getProximoGenero().getNombre());
+			}
+		}
+	}
+	
+	public void getMasBuscados(String genero) {
+		ArrayList<ProximoGenero> buscados = this.buscador.getProximos(genero);
+		if (buscados != null) {
+			for (ProximoGenero g:buscados){
+				System.out.println(g.getProximoGenero().getNombre()+":"+g.getVisitas());
+			}
+		}
+	}
 	//Carga los libros de un archivo, y genera un indice con los generos que contiene
 	public void cargarLibros(String csvFile) {
 

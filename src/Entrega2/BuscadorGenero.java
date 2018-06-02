@@ -32,12 +32,12 @@ public class BuscadorGenero {
 	}
 	
 	public void addProxGenero(String generoA, String generoB) {
-		Genero gA = this.getGenero(generoA); 
-		Genero gB = this.getGenero(generoB);
+		Genero gA = this.returnGenero(generoA); 
+		Genero gB = this.returnGenero(generoB);
 		gA.addVisitado(gB);
 	}
 
-	public Genero getGenero(String g) {
+	public Genero returnGenero(String g) {
 		for (Genero genero : this.generos) {
 			if (genero.getNombre().equals(g)) {
 				return genero;
@@ -47,7 +47,15 @@ public class BuscadorGenero {
 		this.generos.add(nuevoGenero);
 		return nuevoGenero;
 	}
-
+	
+	public Genero getGenero(String g) {
+		for (Genero genero : this.generos) {
+			if (genero.getNombre().equals(g)) {
+				return genero;
+			}
+		}
+		return null;		
+	}
 	public ArrayList<Genero> getGeneros() {
 		ArrayList <Genero> generos = new ArrayList<Genero>();
 		for (Genero genero : this.generos) {
@@ -64,8 +72,12 @@ public class BuscadorGenero {
 		return generoA.existeGenero(generoB);
 	}
 
-	public ArrayList<Genero> obtenerProximos(Genero genero) {
-		return genero.obtenerGenerosVinculados();
+	public ArrayList<ProximoGenero> getProximos(String genero) {
+		Genero g = this.getGenero(genero);
+		if (g!=null)
+			return g.obtenerGenerosVinculados();
+		else
+			return null;
 	}
 	
 	public void mostrarBusqueda() {
