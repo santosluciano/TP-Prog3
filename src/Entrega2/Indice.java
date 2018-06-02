@@ -9,9 +9,8 @@ import java.util.LinkedList;
 
 public class Indice {
 	
-	private String genero;
+	private Genero genero;
 	private LinkedList<Libro> libros;
-	private BuscadorGenero buscador;
 	private Indice izq;
 	private Indice der;
 	
@@ -39,7 +38,8 @@ public class Indice {
                 String[] generos = items[3].split(" ");
                 //Se los agrega al libro
                 for (String genero:generos) {
-                	libro.addGenero(genero);
+                	Genero g = new Genero(genero);
+                	libro.addGenero(g);
                 }
                 //Agrega el libro a la lista de la coleccion de libros
             	//Referencia a los libros de la coleccion en el indice
@@ -52,17 +52,17 @@ public class Indice {
 	}
 	
 	public void insertLibro(Libro libro) {		
-		for (String genero:libro.getGeneros()) {
+		for (Genero genero:libro.getGeneros()) {
 			insertLibro(libro,genero);
 		}
 	}
 	
-	private void insertLibro(Libro libro, String genero) {
+	private void insertLibro(Libro libro, Genero genero) {
 		if (this.genero == null) {
 			this.genero = genero;
 			libros.add(libro);
 		}else {
-			if (this.genero.equals(genero)) {
+			if (this.genero.compareTo(genero) == 0) {
 				this.libros.add(libro);
 			} else if (this.genero.compareTo(genero)>0) {
 				if (this.izq != null) {
@@ -121,9 +121,10 @@ public class Indice {
 	}
 
 	public LinkedList<Libro> getLibros(String genero){
-		if (this.genero.equals(genero)) {
+		String nombre = this.genero.getNombre();
+		if (nombre.equals(genero)) {
 			return this.libros;
-		} else if (this.genero.compareTo(genero)>0) {
+		} else if (nombre.compareTo(genero)>0) {
 			if (this.izq != null) {
 				return this.izq.getLibros(genero);
 			} else {
@@ -142,7 +143,7 @@ public class Indice {
 		if (this.izq != null) {
 			izq.mostrarGeneros();
 		}
-		System.out.println(this.genero);
+		System.out.println(this.genero.getNombre());
 		if (this.der!=null) {
 			der.mostrarGeneros();
 		}

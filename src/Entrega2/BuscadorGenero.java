@@ -65,5 +65,5 @@ public class BuscadorGenero {
 	public ArrayList<Genero> obtenerProximos(Genero genero) {
 		return genero.obtenerGenerosVinculados();
 	}
-
+	
 }

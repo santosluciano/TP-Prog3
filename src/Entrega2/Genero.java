@@ -3,7 +3,7 @@ package Entrega2;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class Genero {
+public class Genero implements Comparable<Genero> {
 	
 	//ESTA SERIA EL VERTICE DEL GRAFO
 
@@ -61,5 +61,9 @@ public class Genero {
 			vinculados.add(genero.getProximoGenero());
 		}
 		return vinculados;
+	}
+	
+	public int compareTo(Genero g) {
+		return this.getNombre().compareTo(g.getNombre());
 	}
 }

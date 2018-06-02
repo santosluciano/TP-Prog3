@@ -6,13 +6,13 @@ public class Libro {
 	private String titulo;
 	private String autor;
 	private String cantidadPaginas;
-	private LinkedList<String> generos;
+	private LinkedList<Genero> generos;
 	
 	public Libro (String titulo, String autor, String cP) {
 		this.titulo = titulo;
 		this.autor = autor;
 		this.cantidadPaginas = cP;
-		this.generos = new LinkedList<String>();
+		this.generos = new LinkedList<Genero>();
 	}
 
 	public String getTitulo() {
@@ -39,11 +39,11 @@ public class Libro {
 		this.cantidadPaginas = cantidadPaginas;
 	}
 
-	public LinkedList<String> getGeneros() {
+	public LinkedList<Genero> getGeneros() {
 		return generos;
 	}
 
-	public void addGenero(String genero) {
+	public void addGenero(Genero genero) {
 		this.generos.add(genero);
 	}
 }

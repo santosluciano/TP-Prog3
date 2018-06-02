@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 public class Biblioteca {
 
 	public static void main(String[] args) throws IOException {		
-		System.out.println("Estoy en entrega 2");			
 
 		BufferedReader linea = new BufferedReader(new InputStreamReader(System.in)); 
 		Indice coleccionLibros = new Indice();
