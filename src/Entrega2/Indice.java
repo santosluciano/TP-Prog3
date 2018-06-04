@@ -48,23 +48,29 @@ public class Indice {
         //buscador.mostrarBusqueda();
 	}
 	
-	public void getMasBuscados(String genero, int cantidad) {
+	public ArrayList<String> getMasBuscados(String genero, int cantidad) {
 		ArrayList<ProximoGenero> buscados = this.buscador.getProximos(genero);
+		ArrayList<String> retorno = new ArrayList<String>();
 		if (buscados != null) {
 			Collections.sort(buscados);
-			for (int i = 0; i<cantidad && i<buscados.size(); i++) {				
+			for (int i = 0; i<cantidad && i<buscados.size(); i++) {	
+				retorno.add(buscados.get(i).getProximoGenero().getNombre());
 				System.out.println(buscados.get(i).getProximoGenero().getNombre());
 			}
 		}
+		return retorno;
 	}
 	
-	public void getMasBuscados(String genero) {
+	public ArrayList<String> getMasBuscados(String genero) {
 		ArrayList<ProximoGenero> buscados = this.buscador.getProximos(genero);
+		ArrayList<String> retorno = new ArrayList<String>();
 		if (buscados != null) {
 			for (ProximoGenero g:buscados){
+				retorno.add(g.getProximoGenero().getNombre());
 				System.out.println(g.getProximoGenero().getNombre()+":"+g.getVisitas());
 			}
 		}
+		return retorno;
 	}
 	//Carga los libros de un archivo, y genera un indice con los generos que contiene
 	public void cargarLibros(String csvFile) {
