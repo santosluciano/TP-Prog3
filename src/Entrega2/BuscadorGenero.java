@@ -1,7 +1,9 @@
 package Entrega2;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map.Entry;
 
 public class BuscadorGenero {
 	
@@ -9,15 +11,21 @@ public class BuscadorGenero {
 
 	private LinkedList<Genero> generos;
 	private int cantidadGeneros;
-	
+	private HashMap<String,String> estado; 
+	private HashMap<String,String> padre;
+
 	public BuscadorGenero() {
 		this.generos = new LinkedList<Genero>();
 		this.cantidadGeneros = 0;
+		this.estado = new HashMap<String,String>();
+		this.padre = new HashMap<String,String>();
 	}
 	
 	public void addGenero(String genero) {
 		if (!this.hasGenero(genero)) {
 			Genero g = new Genero(genero);
+			estado.put(genero, "BLANCO");
+			padre.put(genero, null);
 			generos.add(g);
 			cantidadGeneros++;
 		}
@@ -56,8 +64,8 @@ public class BuscadorGenero {
 		}
 		return null;		
 	}
-	public ArrayList<Genero> getGeneros() {
-		ArrayList <Genero> generos = new ArrayList<Genero>();
+	public LinkedList<Genero> getGeneros() {
+		LinkedList <Genero> generos = new LinkedList<Genero>();
 		for (Genero genero : this.generos) {
 			generos.add(genero);
 		}
@@ -72,7 +80,7 @@ public class BuscadorGenero {
 		return generoA.existeGenero(generoB);
 	}
 
-	public ArrayList<ProximoGenero> getProximos(String genero) {
+	public LinkedList<ProximoGenero> getProximos(String genero) {
 		Genero g = this.getGenero(genero);
 		if (g!=null)
 			return g.obtenerGenerosVinculados();
@@ -80,6 +88,40 @@ public class BuscadorGenero {
 			return null;
 	}
 	
+	public BuscadorGenero getGenerosAfines(String genero) {
+		BuscadorGenero afines = new BuscadorGenero();
+		this.recorridoGenero(genero);
+		for (Entry<String, String>  e:this.estado.entrySet()) {
+		    if (e.getValue()=="NEGRO") {
+		    	afines.addGenero(e.getKey());
+		    }
+		}
+		return afines;
+	}
+	
+	public void recorridoGenero(String genero) {
+		for (Genero g:this.getGeneros()) {
+			estado.put(g.getNombre(), "BLANCO");
+			padre.put(g.getNombre(), null);
+		}
+		Genero g = this.getGenero(genero);
+		if (g!=null)
+			visitarGeneros(g);				
+	}
+	
+	public void visitarGeneros(Genero genero) {
+		estado.put(genero.getNombre(), "AMARILLO");
+		for (ProximoGenero g:genero.obtenerGenerosVinculados()) {
+			if (estado.get(g.getProximoGenero().getNombre()) == "BLANCO") {
+				padre.put(g.getProximoGenero().getNombre(), genero.getNombre());
+				visitarGeneros(g.getProximoGenero());
+			}
+		}
+		padre.put(genero.getNombre(), "NEGRO");
+	}
+	
+	public 
+	 
 	public void mostrarBusqueda() {
 		for (Genero genero:this.generos) {
 			System.out.print(genero.getNombre()+" - ");
@@ -87,5 +129,5 @@ public class BuscadorGenero {
 			System.out.println("");
 		}
 	}
-
+	
 }

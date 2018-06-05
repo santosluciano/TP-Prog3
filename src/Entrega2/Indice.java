@@ -31,8 +31,7 @@ public class Indice {
         String cvsSplitBy = ",";
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-        	//Salta la primer linea que contiene los titulos
-        	br.readLine();
+         	br.readLine();
             while ((line = br.readLine()) != null) {
                 String[] generos = line.split(cvsSplitBy);
                 if (generos.length != 1) {
@@ -45,12 +44,11 @@ public class Indice {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //buscador.mostrarBusqueda();
 	}
 	
-	public ArrayList<String> getMasBuscados(String genero, int cantidad) {
-		ArrayList<ProximoGenero> buscados = this.buscador.getProximos(genero);
-		ArrayList<String> retorno = new ArrayList<String>();
+	public LinkedList<String> getMasBuscados(String genero, int cantidad) {
+		LinkedList<ProximoGenero> buscados = this.buscador.getProximos(genero);
+		LinkedList<String> retorno = new LinkedList<String>();
 		if (buscados != null) {
 			Collections.sort(buscados);
 			for (int i = 0; i<cantidad && i<buscados.size(); i++) {	
@@ -61,9 +59,9 @@ public class Indice {
 		return retorno;
 	}
 	
-	public ArrayList<String> getMasBuscados(String genero) {
-		ArrayList<ProximoGenero> buscados = this.buscador.getProximos(genero);
-		ArrayList<String> retorno = new ArrayList<String>();
+	public LinkedList<String> getMasBuscados(String genero) {
+		LinkedList<ProximoGenero> buscados = this.buscador.getProximos(genero);
+		LinkedList<String> retorno = new LinkedList<String>();
 		if (buscados != null) {
 			for (ProximoGenero g:buscados){
 				retorno.add(g.getProximoGenero().getNombre());
@@ -72,6 +70,12 @@ public class Indice {
 		}
 		return retorno;
 	}
+	
+	public LinkedList<String> getGenerosAfines() {
+		LinkedList<String> afines = new LinkedList<String>();
+		return afines;
+	}
+	
 	//Carga los libros de un archivo, y genera un indice con los generos que contiene
 	public void cargarLibros(String csvFile) {
 
@@ -169,7 +173,7 @@ public class Indice {
 			}
 		}
 	}
-
+	
 	public LinkedList<Libro> getLibros(String genero){
 		if (this.genero.equals(genero)) {
 			return this.libros;

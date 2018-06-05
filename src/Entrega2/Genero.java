@@ -55,8 +55,8 @@ public class Genero {
 		return false;
 	}
 	
-	public ArrayList<ProximoGenero> obtenerGenerosVinculados() {
-		ArrayList<ProximoGenero> vinculados = new ArrayList<ProximoGenero>();
+	public LinkedList<ProximoGenero> obtenerGenerosVinculados() {
+		LinkedList<ProximoGenero> vinculados = new LinkedList<ProximoGenero>();
 		for (ProximoGenero genero : generosVinculados) {
 			vinculados.add(genero);
 		}
