@@ -12,12 +12,15 @@ public class BuscadorGenero {
 	private int cantidadGeneros;
 	private HashMap<String,String> estado; 
 	private HashMap<String,String> padre;
+	private LinkedList<String> camino;
 
 	public BuscadorGenero() {
 		this.generos = new LinkedList<Genero>();
 		this.cantidadGeneros = 0;
 		this.estado = new HashMap<String,String>();
 		this.padre = new HashMap<String,String>();
+		this.camino = new LinkedList<String>();
+
 	}
 	
 	public void addGenero(String genero) {
@@ -107,6 +110,7 @@ public class BuscadorGenero {
 			if (this.estado.get(adyacentes.get(i).getProximoGenero().getNombre()) == "BLANCO"){
 				hayCiclo = hayCiclo(genero);
 			}
+			i++;
 		}
 		if (hayCiclo) {
 			BuscadorGenero afines = new BuscadorGenero();
@@ -122,19 +126,24 @@ public class BuscadorGenero {
 	
 	private boolean hayCiclo(String genero) {
 		this.estado.put(genero,"AMARILLO");
-		LinkedList<ProximoGenero> adyacentes = this.getGenero(genero).obtenerGenerosVinculados();
+		LinkedList<ProximoGenero> adyacentes = new LinkedList<ProximoGenero>();
+		if (this.getGenero(genero).obtenerGenerosVinculados() != null)
+			adyacentes = this.getGenero(genero).obtenerGenerosVinculados();
 		boolean hayCiclo = false;
 		int i = 0;
 		while (i < adyacentes.size() && !hayCiclo) {
-			if (this.estado.get(genero) == "BLANCO") {
+			if (this.estado.get(adyacentes.get(i).getProximoGenero().getNombre()) == "BLANCO") {
 				hayCiclo = hayCiclo(this.estado.get(adyacentes.get(i).getProximoGenero().getNombre()));
 			}else {
-				if (this.estado.get(genero) == "AMARILLO") {
+				if (this.estado.get(adyacentes.get(i).getProximoGenero().getNombre()) == "AMARILLO") {
 					hayCiclo = true;
 				}
 			}
+			i++;
 		}
 		this.estado.put(genero, "NEGRO");
+		this.camino.add(genero);
+
 		return hayCiclo;
 	}
 		
