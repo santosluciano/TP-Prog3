@@ -59,6 +59,16 @@ public class Indice {
 		return retorno;
 	}
 	
+	public LinkedList<String> getBuscadosPostGenero(String genero){
+		BuscadorGenero generos = buscador.getPostGenero(genero);
+		LinkedList<String> postGenero = new LinkedList<String>();
+		for (Genero g:generos.getGeneros()) {
+			postGenero.add(g.getNombre());
+			System.out.println(g.getNombre());
+		}
+		return postGenero;
+	}
+	
 	public LinkedList<String> getMasBuscados(String genero) {
 		LinkedList<ProximoGenero> buscados = this.buscador.getProximos(genero);
 		LinkedList<String> retorno = new LinkedList<String>();

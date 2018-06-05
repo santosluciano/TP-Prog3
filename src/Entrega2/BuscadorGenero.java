@@ -88,21 +88,21 @@ public class BuscadorGenero {
 			return null;
 	}
 	
-	public BuscadorGenero getGenerosAfines(String genero) {
-		BuscadorGenero afines = new BuscadorGenero();
+	public BuscadorGenero getPostGenero(String genero) {
+		BuscadorGenero postGeneros = new BuscadorGenero();
 		this.recorridoGenero(genero);
 		for (Entry<String, String>  e:this.estado.entrySet()) {
 		    if (e.getValue()=="NEGRO") {
-		    	afines.addGenero(e.getKey());
+		    	postGeneros.addGenero(e.getKey());
 		    }
 		}
-		return afines;
+		return postGeneros;
 	}
 	
 	public void recorridoGenero(String genero) {
 		for (Genero g:this.getGeneros()) {
 			estado.put(g.getNombre(), "BLANCO");
-			padre.put(g.getNombre(), null);
+		//	padre.put(g.getNombre(), null);
 		}
 		Genero g = this.getGenero(genero);
 		if (g!=null)
@@ -113,15 +113,13 @@ public class BuscadorGenero {
 		estado.put(genero.getNombre(), "AMARILLO");
 		for (ProximoGenero g:genero.obtenerGenerosVinculados()) {
 			if (estado.get(g.getProximoGenero().getNombre()) == "BLANCO") {
-				padre.put(g.getProximoGenero().getNombre(), genero.getNombre());
+			  //padre.put(g.getProximoGenero().getNombre(), genero.getNombre());
 				visitarGeneros(g.getProximoGenero());
 			}
 		}
-		padre.put(genero.getNombre(), "NEGRO");
+		estado.put(genero.getNombre(), "NEGRO");
 	}
-	
-	public 
-	 
+		 
 	public void mostrarBusqueda() {
 		for (Genero genero:this.generos) {
 			System.out.print(genero.getNombre()+" - ");
