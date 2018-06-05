@@ -99,11 +99,15 @@ public class BuscadorGenero {
 		return postGeneros;
 	}
 	
-	private void recorridoGenero(String genero) {
+	private void initSets() {
 		for (Genero g:this.getGeneros()) {
 			estado.put(g.getNombre(), "BLANCO");
-		//	padre.put(g.getNombre(), null);
+			padre.put(g.getNombre(), null);
 		}
+	}
+	
+	private void recorridoGenero(String genero) {
+		this.initSets();
 		Genero g = this.getGenero(genero);
 		if (g!=null)
 			visitarGeneros(g);				
@@ -119,31 +123,7 @@ public class BuscadorGenero {
 		}
 		estado.put(genero.getNombre(), "NEGRO");
 	}
-	
-	public BuscadorGenero
-	
-	DFS_Ciclo(grafo G)
-	PARA CADA vértice v HACER
-	estado[v] = BLANCO
-	padre[v] = NULO
-	adyacentes ← Vecinos[v]
-	MIENTRAS i<adyacentes.size Y NO hayCiclo
-	SI estado[adyacentes[i]] = BLANCO ENTONCES
-	hayCiclo = Hay_Ciclo(v)
-	Hay_Ciclo(nodo v)
-	estado[v] = AMARILLO
-	adyacentes = Vecinos[v]
-	hayCiclo = NO
-	MIENTRAS i<adyacentes.size Y NO nayCiclo HACER
-	SI estado[v] = BLANCO
-	hayCiclo = Hay_Ciclo(adyacente[i])
-	SINO
-	SI estado[v] = AMARILLO
-	hayCilco = SI
-
-	estado[v] = NEGRO
-	RETURN hayCiclo
-		 
+			 
 	public void mostrarBusqueda() {
 		for (Genero genero:this.generos) {
 			System.out.print(genero.getNombre()+" - ");
