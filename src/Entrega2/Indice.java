@@ -79,9 +79,15 @@ public class Indice {
 		return retorno;
 	}
 	
-	public LinkedList<String> getGenerosAfines() {
-		LinkedList<String> afines = new LinkedList<String>();
-		return afines;
+	public LinkedList<String> getGenerosAfines(String genero) {
+		BuscadorGenero grafoafines = this.buscador.getGenerosAfines(genero);
+		LinkedList<Genero> afines = grafoafines.getGeneros();
+		LinkedList<String> retorno = new LinkedList<String>();
+		for (Genero g:afines) {
+			retorno.add(g.getNombre());
+			System.out.println(g.getNombre());			
+		}
+		return retorno;
 	}
 	
 	//Carga los libros de un archivo, y genera un indice con los generos que contiene

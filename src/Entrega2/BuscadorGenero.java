@@ -1,6 +1,5 @@
 package Entrega2;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map.Entry;
@@ -99,6 +98,46 @@ public class BuscadorGenero {
 		return postGeneros;
 	}
 	
+	public BuscadorGenero getGenerosAfines(String genero) {
+		this.initSets();
+		LinkedList<ProximoGenero> adyacentes = this.getGenero(genero).obtenerGenerosVinculados();
+		int i = 0;
+		boolean hayCiclo = false;
+		while (i < adyacentes.size() && !hayCiclo) {
+			if (this.estado.get(adyacentes.get(i).getProximoGenero().getNombre()) == "BLANCO"){
+				hayCiclo = hayCiclo(genero);
+			}
+		}
+		if (hayCiclo) {
+			BuscadorGenero afines = new BuscadorGenero();
+			for (Entry<String, String> g:this.estado.entrySet()) {
+				if (g.getValue() == "NEGRO") {
+					afines.addGenero(genero);
+				}
+			return afines;
+			}
+		}
+		return null;
+	}
+	
+	private boolean hayCiclo(String genero) {
+		this.estado.put(genero,"AMARILLO");
+		LinkedList<ProximoGenero> adyacentes = this.getGenero(genero).obtenerGenerosVinculados();
+		boolean hayCiclo = false;
+		int i = 0;
+		while (i < adyacentes.size() && !hayCiclo) {
+			if (this.estado.get(genero) == "BLANCO") {
+				hayCiclo = hayCiclo(this.estado.get(adyacentes.get(i).getProximoGenero().getNombre()));
+			}else {
+				if (this.estado.get(genero) == "AMARILLO") {
+					hayCiclo = true;
+				}
+			}
+		}
+		this.estado.put(genero, "NEGRO");
+		return hayCiclo;
+	}
+		
 	private void initSets() {
 		for (Genero g:this.getGeneros()) {
 			estado.put(g.getNombre(), "BLANCO");
