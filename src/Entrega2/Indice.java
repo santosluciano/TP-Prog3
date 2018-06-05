@@ -60,13 +60,11 @@ public class Indice {
 	}
 	
 	public LinkedList<String> getBuscadosPostGenero(String genero){
-		BuscadorGenero generos = buscador.getPostGenero(genero);
-		LinkedList<String> postGenero = new LinkedList<String>();
-		for (Genero g:generos.getGeneros()) {
-			postGenero.add(g.getNombre());
-			System.out.println(g.getNombre());
+		LinkedList<String> generos = this.buscador.getPostGenero(genero); 
+		for (String g:generos) {
+			System.out.println(g);
 		}
-		return postGenero;
+		return generos;
 	}
 	
 	public LinkedList<String> getMasBuscados(String genero) {
