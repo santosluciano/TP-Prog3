@@ -115,7 +115,7 @@ public class GrafoGeneros {
 			this.padre.put(padreCiclo, hijoCiclo);
 			afines.addGenero(padreCiclo);
 			String gen = this.padre.get(padreCiclo);
-			while (gen!=padreCiclo) {
+			while (!gen.equals(padreCiclo)) {
 				afines.addGenero(gen);
 				gen = this.padre.get(gen);
 			}

@@ -11,7 +11,7 @@ public class Biblioteca {
 		Indice coleccionLibros = new Indice();
 		System.out.print("Ingrese el nombre del archivo (csv) y su ruta contando como raiz el c: ");
 		coleccionLibros.cargarBusquedas("C:\\"+linea.readLine()+".csv");
-		coleccionLibros.getGenerosAfines("drama");
+		coleccionLibros.getGenerosAfines("juegos");
 		//coleccionLibros.getBuscadosPostGenero("viajes");
 		//coleccionLibros.getMasBuscados("viajes",3);
 		
