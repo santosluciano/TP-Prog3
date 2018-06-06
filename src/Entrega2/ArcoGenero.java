@@ -1,18 +1,18 @@
 package Entrega2;
 
-public class ProximoGenero implements Comparable<ProximoGenero>{
+public class ArcoGenero implements Comparable<ArcoGenero>{
 	
 	//ESTA SERIA LA ARISTA DEL GRAFO
 	
 	private Genero proximoGenero;
 	private int visitas;
 	
-	public ProximoGenero(Genero proximoGenero) {
+	public ArcoGenero(Genero proximoGenero) {
 		this.proximoGenero = proximoGenero;
 		this.visitas = 1;
 	}
 	
-	public int compareTo(ProximoGenero pg) {
+	public int compareTo(ArcoGenero pg) {
 		return pg.getVisitas() - this.getVisitas();		
 	}
 

@@ -11,12 +11,12 @@ import java.util.LinkedList;
 
 public class Indice {
 
-	private BuscadorGenero buscador;
+	private GrafoGeneros buscador;
 
 	
 	public Indice() {
 	
-		this.buscador = new BuscadorGenero();
+		this.buscador = new GrafoGeneros();
 	}
 	
 	public void cargarBusquedas(String csvFile) {
@@ -41,7 +41,7 @@ public class Indice {
 	}
 	
 	public LinkedList<String> getMasBuscados(String genero, int cantidad) {
-		LinkedList<ProximoGenero> buscados = this.buscador.getProximos(genero);
+		LinkedList<ArcoGenero> buscados = this.buscador.getProximos(genero);
 		LinkedList<String> retorno = new LinkedList<String>();
 		if (buscados != null) {
 			Collections.sort(buscados);
@@ -62,7 +62,7 @@ public class Indice {
 	}
 	
 	public LinkedList<String> getGenerosAfines(String genero) {
-		BuscadorGenero grafoafines = this.buscador.getGenerosAfines(genero);
+		GrafoGeneros grafoafines = this.buscador.getGenerosAfines(genero);
 		LinkedList<Genero> afines = grafoafines.getGeneros();
 		LinkedList<String> retorno = new LinkedList<String>();
 //		for (Genero g:afines) {

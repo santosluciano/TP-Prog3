@@ -4,17 +4,17 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map.Entry;
 
-public class BuscadorGenero {
+public class GrafoGeneros {
 	
 	//ESTA SERIA EL GRAFO
 
 	private LinkedList<Genero> generos;
 	private int cantidadGeneros;
-	private HashMap<String,String> estado; 
+	private HashMap<String,String> estado;
 	private HashMap<String,String> padre;
 	private String padreCiclo;
 
-	public BuscadorGenero() {
+	public GrafoGeneros() {
 		this.generos = new LinkedList<Genero>();
 		this.padreCiclo = null;
 		this.cantidadGeneros = 0;
@@ -81,7 +81,7 @@ public class BuscadorGenero {
 		return generoA.existeGenero(generoB);
 	}
 
-	public LinkedList<ProximoGenero> getProximos(String genero) {
+	public LinkedList<ArcoGenero> getProximos(String genero) {
 		Genero g = this.getGenero(genero);
 		if (g!=null)
 			return g.obtenerGenerosVinculados();
@@ -100,9 +100,9 @@ public class BuscadorGenero {
 		return postGeneros;
 	}
 	
-	public BuscadorGenero getGenerosAfines(String genero) {
+	public GrafoGeneros getGenerosAfines(String genero) {
 		this.initSets();
-		LinkedList<ProximoGenero> adyacentes = this.getGenero(genero).obtenerGenerosVinculados();
+		LinkedList<ArcoGenero> adyacentes = this.getGenero(genero).obtenerGenerosVinculados();
 		int i = 0;
 		boolean hayCiclo = false;
 		while (i < adyacentes.size() && !hayCiclo) {
@@ -112,7 +112,7 @@ public class BuscadorGenero {
 			i++;
 		}
 		if (hayCiclo) {
-			BuscadorGenero afines = new BuscadorGenero();
+			GrafoGeneros afines = new GrafoGeneros();
 			for (Entry<String, String> g:this.estado.entrySet()) {
 				if (g.getValue() == "NEGRO" && g.getKey() != this.padreCiclo) {
 					afines.addGenero(g.getKey());
@@ -129,7 +129,7 @@ public class BuscadorGenero {
 	
 	private boolean hayCiclo(String genero) {
 		this.estado.put(genero,"AMARILLO");
-		LinkedList<ProximoGenero> adyacentes = this.getGenero(genero).obtenerGenerosVinculados();		
+		LinkedList<ArcoGenero> adyacentes = this.getGenero(genero).obtenerGenerosVinculados();		
 		boolean hayCiclo = false;
 		int i = 0;
 		while (i < adyacentes.size() && !hayCiclo) {
@@ -162,7 +162,7 @@ public class BuscadorGenero {
 	
 	private void visitarGeneros(Genero genero) {
 		estado.put(genero.getNombre(), "AMARILLO");
-		for (ProximoGenero g:genero.obtenerGenerosVinculados()) {
+		for (ArcoGenero g:genero.obtenerGenerosVinculados()) {
 			if (estado.get(g.getProximoGenero().getNombre()) == "BLANCO") {
 			  //padre.put(g.getProximoGenero().getNombre(), genero.getNombre());
 				visitarGeneros(g.getProximoGenero());

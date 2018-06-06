@@ -8,17 +8,17 @@ public class Genero {
 	//ESTA SERIA EL VERTICE DEL GRAFO
 
 	private String nombre;
-	private LinkedList<ProximoGenero> generosVinculados;
+	private LinkedList<ArcoGenero> generosVinculados;
 	
 	public Genero (String nombre) {
 		this.nombre = nombre;
-		generosVinculados = new LinkedList<ProximoGenero>();
+		generosVinculados = new LinkedList<ArcoGenero>();
 	}
 	
 	public void addVisitado(Genero generoB) {
-		ProximoGenero visitado = this.getProximo(generoB);
+		ArcoGenero visitado = this.getProximo(generoB);
 		if (visitado == null) {
-			ProximoGenero proximo = new ProximoGenero(generoB);
+			ArcoGenero proximo = new ArcoGenero(generoB);
 			generosVinculados.add(proximo);	
 		}
 		else{
@@ -26,8 +26,8 @@ public class Genero {
 		}
 	}
 	
-	public ProximoGenero getProximo(Genero genero) {
-		for(ProximoGenero proximo: generosVinculados){
+	public ArcoGenero getProximo(Genero genero) {
+		for(ArcoGenero proximo: generosVinculados){
 			if(proximo.getProximoGenero().equals(genero))
 				return proximo;
 		}
@@ -47,7 +47,7 @@ public class Genero {
 	}
 	
 	public boolean existeGenero (Genero siguiente){
-		for (ProximoGenero genero : this.generosVinculados) {
+		for (ArcoGenero genero : this.generosVinculados) {
 			if (genero.getProximoGenero().equals(siguiente)) {
 				return true;
 			}
@@ -55,16 +55,16 @@ public class Genero {
 		return false;
 	}
 	
-	public LinkedList<ProximoGenero> obtenerGenerosVinculados() {
-		LinkedList<ProximoGenero> vinculados = new LinkedList<ProximoGenero>();
-		for (ProximoGenero genero : generosVinculados) {
+	public LinkedList<ArcoGenero> obtenerGenerosVinculados() {
+		LinkedList<ArcoGenero> vinculados = new LinkedList<ArcoGenero>();
+		for (ArcoGenero genero : generosVinculados) {
 			vinculados.add(genero);
 		}
 		return vinculados;
 	}
 	
 	public void mostrarProximos(){
-		for (ProximoGenero genero:this.generosVinculados) {
+		for (ArcoGenero genero:this.generosVinculados) {
 			System.out.print(genero.getProximoGenero().getNombre()+":"+genero.getVisitas()+ " - ");
 		}
 	}
