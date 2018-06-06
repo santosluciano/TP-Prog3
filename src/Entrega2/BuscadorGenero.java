@@ -107,32 +107,32 @@ public class BuscadorGenero {
 			if (this.estado.get(adyacentes.get(i).getProximoGenero().getNombre()) == "BLANCO"){
 				hayCiclo = hayCiclo(genero);
 			}
+			i++;
 		}
 		if (hayCiclo) {
 			BuscadorGenero afines = new BuscadorGenero();
 			for (Entry<String, String> g:this.estado.entrySet()) {
 				if (g.getValue() == "NEGRO") {
-					afines.addGenero(genero);
+					afines.addGenero(g.getKey());
 				}
-			return afines;
 			}
+			return afines;
 		}
 		return null;
 	}
 	
 	private boolean hayCiclo(String genero) {
 		this.estado.put(genero,"AMARILLO");
-		LinkedList<ProximoGenero> adyacentes = this.getGenero(genero).obtenerGenerosVinculados();
+		LinkedList<ProximoGenero> adyacentes = this.getGenero(genero).obtenerGenerosVinculados();		
 		boolean hayCiclo = false;
 		int i = 0;
 		while (i < adyacentes.size() && !hayCiclo) {
-			if (this.estado.get(genero) == "BLANCO") {
-				hayCiclo = hayCiclo(this.estado.get(adyacentes.get(i).getProximoGenero().getNombre()));
-			}else {
-				if (this.estado.get(genero) == "AMARILLO") {
+			if (this.estado.get(adyacentes.get(i).getProximoGenero().getNombre()) == "BLANCO") {
+				hayCiclo = hayCiclo(adyacentes.get(i).getProximoGenero().getNombre());
+			}else if (this.estado.get(adyacentes.get(i).getProximoGenero().getNombre()) == "AMARILLO") {
 					hayCiclo = true;
 				}
-			}
+			i++;
 		}
 		this.estado.put(genero, "NEGRO");
 		return hayCiclo;
