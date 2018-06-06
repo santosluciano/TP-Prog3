@@ -12,9 +12,11 @@ public class BuscadorGenero {
 	private int cantidadGeneros;
 	private HashMap<String,String> estado; 
 	private HashMap<String,String> padre;
+	private String padreCiclo;
 
 	public BuscadorGenero() {
 		this.generos = new LinkedList<Genero>();
+		this.padreCiclo = null;
 		this.cantidadGeneros = 0;
 		this.estado = new HashMap<String,String>();
 		this.padre = new HashMap<String,String>();
@@ -112,8 +114,12 @@ public class BuscadorGenero {
 		if (hayCiclo) {
 			BuscadorGenero afines = new BuscadorGenero();
 			for (Entry<String, String> g:this.estado.entrySet()) {
-				if (g.getValue() == "NEGRO") {
+				if (g.getValue() == "NEGRO" && g.getKey() != this.padreCiclo) {
 					afines.addGenero(g.getKey());
+				}
+				else if(g.getKey() == this.padreCiclo) {
+					afines.addGenero(g.getKey());
+					break;
 				}
 			}
 			return afines;
@@ -130,11 +136,13 @@ public class BuscadorGenero {
 			if (this.estado.get(adyacentes.get(i).getProximoGenero().getNombre()) == "BLANCO") {
 				hayCiclo = hayCiclo(adyacentes.get(i).getProximoGenero().getNombre());
 			}else if (this.estado.get(adyacentes.get(i).getProximoGenero().getNombre()) == "AMARILLO") {
+					this.padreCiclo = adyacentes.get(i).getProximoGenero().getNombre();
 					hayCiclo = true;
 				}
 			i++;
 		}
 		this.estado.put(genero, "NEGRO");
+		System.out.println(genero);
 		return hayCiclo;
 	}
 		
