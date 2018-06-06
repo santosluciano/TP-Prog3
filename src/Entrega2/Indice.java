@@ -12,7 +12,6 @@ import java.util.LinkedList;
 public class Indice {
 
 	private GrafoGeneros buscador;
-
 	
 	public Indice() {
 	
