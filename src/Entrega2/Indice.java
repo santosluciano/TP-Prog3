@@ -65,10 +65,10 @@ public class Indice {
 		GrafoGeneros grafoafines = this.buscador.getGenerosAfines(genero);
 		LinkedList<Genero> afines = grafoafines.getGeneros();
 		LinkedList<String> retorno = new LinkedList<String>();
-//		for (Genero g:afines) {
-//			retorno.add(g.getNombre());
-//			System.out.println(g.getNombre());			
-//		}
+		for (Genero g:afines) {
+			retorno.add(g.getNombre());
+			System.out.println(g.getNombre());			
+		}
 		return retorno;
 	}
 	

@@ -12,11 +12,11 @@ public class GrafoGeneros {
 	private int cantidadGeneros;
 	private HashMap<String,String> estado;
 	private HashMap<String,String> padre;
-	private String padreCiclo;
+	private static String padreCiclo;
+	private static String hijoCiclo;
 
 	public GrafoGeneros() {
 		this.generos = new LinkedList<Genero>();
-		this.padreCiclo = null;
 		this.cantidadGeneros = 0;
 		this.estado = new HashMap<String,String>();
 		this.padre = new HashMap<String,String>();
@@ -26,7 +26,6 @@ public class GrafoGeneros {
 		if (!this.hasGenero(genero)) {
 			Genero g = new Genero(genero);
 			estado.put(genero, "BLANCO");
-			padre.put(genero, null);
 			generos.add(g);
 			cantidadGeneros++;
 		}
@@ -113,14 +112,12 @@ public class GrafoGeneros {
 		}
 		if (hayCiclo) {
 			GrafoGeneros afines = new GrafoGeneros();
-			for (Entry<String, String> g:this.estado.entrySet()) {
-				if (g.getValue() == "NEGRO" && g.getKey() != this.padreCiclo) {
-					afines.addGenero(g.getKey());
-				}
-				else if(g.getKey() == this.padreCiclo) {
-					afines.addGenero(g.getKey());
-					break;
-				}
+			this.padre.put(padreCiclo, hijoCiclo);
+			afines.addGenero(padreCiclo);
+			String gen = this.padre.get(padreCiclo);
+			while (gen!=padreCiclo) {
+				afines.addGenero(gen);
+				gen = this.padre.get(gen);
 			}
 			return afines;
 		}
@@ -136,13 +133,15 @@ public class GrafoGeneros {
 			if (this.estado.get(adyacentes.get(i).getProximoGenero().getNombre()) == "BLANCO") {
 				hayCiclo = hayCiclo(adyacentes.get(i).getProximoGenero().getNombre());
 			}else if (this.estado.get(adyacentes.get(i).getProximoGenero().getNombre()) == "AMARILLO") {
-					this.padreCiclo = adyacentes.get(i).getProximoGenero().getNombre();
+					padreCiclo = adyacentes.get(i).getProximoGenero().getNombre();
+					hijoCiclo = genero;
 					hayCiclo = true;
 				}
+			this.padre.put(adyacentes.get(i).getProximoGenero().getNombre(), genero);
 			i++;
 		}
 		this.estado.put(genero, "NEGRO");
-		System.out.println(genero);
+//		System.out.println(genero);
 		return hayCiclo;
 	}
 		
@@ -164,7 +163,6 @@ public class GrafoGeneros {
 		estado.put(genero.getNombre(), "AMARILLO");
 		for (ArcoGenero g:genero.obtenerGenerosVinculados()) {
 			if (estado.get(g.getProximoGenero().getNombre()) == "BLANCO") {
-			  //padre.put(g.getProximoGenero().getNombre(), genero.getNombre());
 				visitarGeneros(g.getProximoGenero());
 			}
 		}
