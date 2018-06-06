@@ -14,6 +14,7 @@ public class GrafoGeneros {
 	private HashMap<String,String> padre;
 	private static String padreCiclo;
 	private static String hijoCiclo;
+	private static int iteraciones;
 
 	public GrafoGeneros() {
 		this.generos = new LinkedList<Genero>();
@@ -89,6 +90,7 @@ public class GrafoGeneros {
 	}
 	
 	public LinkedList<String> getPostGenero(String genero) {
+		this.iteraciones = 0;
 		LinkedList<String> postGeneros = new LinkedList<String>();
 		this.recorridoGenero(genero);
 		for (Entry<String, String>  e:this.estado.entrySet()) {
@@ -141,7 +143,6 @@ public class GrafoGeneros {
 			i++;
 		}
 		this.estado.put(genero, "NEGRO");
-//		System.out.println(genero);
 		return hayCiclo;
 	}
 		
